@@ -1,7 +1,8 @@
-const project_router = require('express').Router();
+const router = require('express').Router();
 const Project = require('../model/Project');
+var ObjectID = require('mongodb').ObjectID;
 
-project_router.post('/add-project', async(req,res)=>{
+router.post('/add-project', async(req,res)=>{
     const project = new Project({
         organizationName:req.body.organization_name,
         projectName:req.body.project_name,
@@ -19,8 +20,28 @@ project_router.post('/add-project', async(req,res)=>{
     }
 });
 
-project_router.post('/get-project-summary', async(req, res) => {
-    
+router.get('/get-project-summary/:id', async (req, res) => {
+
+    const id = req.params.id;
+    try {
+        Project.findOne({_id: new ObjectID(id)}, async (err, result) => {
+            try {
+                if(err) {
+                    res.send("Some error occured");
+                }
+                else {
+                    res.json(result);
+                }
+            }
+            catch(error) {
+                console.log(error);
+                res.status(500).send({'error': error});
+            }
+        });    
+    }
+    catch(err) {
+        res.status(500).send({error: "Internal server error " + err});
+    }
 });
 
-module.exports = project_router;
+module.exports = router;

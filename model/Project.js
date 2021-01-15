@@ -13,7 +13,7 @@ const projectSchema = new mongoose.Schema({
         type: Array,
         required: true
     },
-    userStory: {
+    userStory: [{
         userId: [String],
         storyDetails: {
             storyTitle: {
@@ -41,7 +41,7 @@ const projectSchema = new mongoose.Schema({
                 type: Number
             }
         }
-    }
+    }]
 });
 
 module.exports=mongoose.model('Project',projectSchema);
