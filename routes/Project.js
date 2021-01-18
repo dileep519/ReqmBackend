@@ -45,6 +45,8 @@ router.get('/get-projects', verify, async (req, res) => {
     catch(err) {
         res.status(500).send({error: "Internal server error " + err});
     }
+
+router.get('/get-project')
 });
 
 module.exports = router;
