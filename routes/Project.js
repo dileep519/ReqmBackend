@@ -1,18 +1,21 @@
 const router = require('express').Router();
 const Project = require('../model/Project');
+const verify = require('./verify_token');
 var ObjectID = require('mongodb').ObjectID;
 
-router.post('/add-project', async(req,res)=>{
+
+router.post('/add-project', verify, async(req,res)=>{
     const project = new Project({
-        organizationName:req.body.organization_name,
-        projectName:req.body.project_name,
-        usersAssociated:req.body.associated_users_list
+        organizationName: req.body.organization_name,
+        projectName: req.body.project_name,
+        userId: req.user._id,
+        usersAssociated: req.body.associated_users_list
     });
     try{
         const saveProject = await project.save();
         res.status(200).send({
-            error:"",
-            message:"Project created Successfully"
+            error: "",
+            message: "Project created Successfully"
         });
     }
     catch(err){
@@ -20,11 +23,11 @@ router.post('/add-project', async(req,res)=>{
     }
 });
 
-router.get('/get-project-summary/:id', async (req, res) => {
+router.get('/get-projects', verify, async (req, res) => {
 
-    const id = req.params.id;
+    const id = req.user._id;
     try {
-        Project.findOne({_id: new ObjectID(id)}, async (err, result) => {
+        Project.find({userId: id}, async (err, result) => {
             try {
                 if(err) {
                     res.send("Some error occured");

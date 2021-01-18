@@ -5,6 +5,10 @@ const userStorySchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	projectId: {
+		type: String,
+		required: true
+	},
     storyDetails: {
         storyTitle: {
             type: String

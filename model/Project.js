@@ -9,39 +9,14 @@ const projectSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    userId: {
+        type: String,
+        required: true
+    },
     usersAssociated: {
         type: Array,
         required: true
-    },
-    userStory: [{
-        userId: [String],
-        storyDetails: {
-            storyTitle: {
-                type: String
-            },
-            asA: {
-                type: String
-            },
-            actionRequirement: {
-                type: String
-            },
-            actionOutput: {
-                type: String
-            },
-            actionAssignedTo: {
-                type: String
-            },
-            actionProvidedBy: {
-                type: String
-            },
-            actionReceivedMode: {
-                type: String
-            },
-            priority: {
-                type: Number
-            }
-        }
-    }]
+    }
 });
 
 module.exports=mongoose.model('Project',projectSchema);

@@ -14,8 +14,7 @@ const userSchema=new mongoose.Schema({
         required:true
     },
     profilePhoto:{
-        type:Buffer,
-        required:true
+        type:Buffer
     }
 });
 
