@@ -89,4 +89,29 @@ router.put('/update-story/:id', verify, async (req, res) => {
     }
 });
 
+router.get('/get-all-assigned-stories', verify, async (req, res) => {
+    const id = req.user._id;
+    var assignedRequirements = [];
+    UserStory.find({}, async (err, result) => {
+        try {
+            if(err) {
+                res.send("Some error occured");
+            }
+            else {
+                result.forEach(function(r) {
+                    if(r.storyDetails.actionAssignedTo === id) {
+                        assignedRequirements.push(r);
+                    }
+                });
+                res.status(200).send(assignedRequirements);
+            }
+        }
+        catch(error) {
+            console.log(error);
+            res.status(500).send({'error': error});
+        }
+    });
+
+})
+
 module.exports = router;
