@@ -1,22 +1,24 @@
 const router = require("express").Router();
-const UserStory = require("../model/UserStory");
+const JobTobeDone = require("../model/JobTobeDone");
 const verify = require("./verify_token");
 var ObjectID = require("mongodb").ObjectID;
 
-router.post("/add-story", verify, async (req, res) => {
-  const story = new UserStory({
+router.post("/add-jtbd", verify, async (req, res) => {
+  const story = new JobTobeDone({
     userId: req.user._id,
     projectId: req.body.project_id,
-    storyDetails: {
-      storyTitle: req.body.story_details.story_title,
-      asA: req.body.story_details.as_a,
-      actionRequirement: req.body.story_details.action_requirement,
-      actionOutput: req.body.story_details.action_output,
-      actionAssignedTo: req.body.story_details.action_assigned_to,
-      actionProvidedBy: req.body.story_details.action_provided_by,
-      actionReceivedMode: req.body.story_details.action_received_mode,
-      priority: req.body.story_details.priority,
+    JobTobeDone: {
+      description: req.body.story_details.description,
+      persona: req.body.story_details.persona,
+      situation: req.body.story_details.situation,
+      whatiwant: req.body.story_details.whatiwant,
+      soican: req.body.story_details.soican,
+      assignTo: req.body.story_details.assignTo,
       details: req.body.story_details.details,
+      watchlist: req.body.story_details.watchlist,
+      providedBy: req.body.story_details.providedBy,
+      mode: req.body.story_details.mode,
+      priority: req.body.story_details.priority,
     },
   });
   try {
@@ -31,7 +33,7 @@ router.post("/add-story", verify, async (req, res) => {
   }
 });
 
-router.get("/get-stories/:type/:id", verify, async (req, res) => {
+router.get("/get-jtbd/:type/:id", verify, async (req, res) => {
   var type = req.params.type;
   const id = req.params.id;
   try {
@@ -39,7 +41,7 @@ router.get("/get-stories/:type/:id", verify, async (req, res) => {
     if (type === "userid") object = { userId: req.user._id };
     else object = { projectId: req.params.id };
 
-    UserStory.find(object, async (err, result) => {
+    JobTobeDone.find(object, async (err, result) => {
       try {
         if (err) {
           res.send("Some error occured");
@@ -55,24 +57,26 @@ router.get("/get-stories/:type/:id", verify, async (req, res) => {
     res.status(500).send({ error: "Internal server error " + err });
   }
 });
-router.put("/update-story/:id", verify, async (req, res) => {
+router.put("/update-jtbd/:id", verify, async (req, res) => {
   const id = req.params.id;
   try {
     const updatedStory = {
-      storyDetails: {
-        storyTitle: req.body.story_details.story_title,
-        asA: req.body.story_details.as_a,
-        actionRequirement: req.body.story_details.action_requirement,
-        actionOutput: req.body.story_details.action_output,
-        actionAssignedTo: req.body.story_details.action_assigned_to,
-        actionProvidedBy: req.body.story_details.action_provided_by,
-        actionReceivedMode: req.body.story_details.action_received_mode,
-        priority: req.body.story_details.priority,
+      JobTobeDone: {
+        description: req.body.story_details.description,
+        persona: req.body.story_details.persona,
+        situation: req.body.story_details.situation,
+        whatiwant: req.body.story_details.whatiwant,
+        soican: req.body.story_details.soican,
+        assignTo: req.body.story_details.assignTo,
         details: req.body.story_details.details,
+        watchlist: req.body.story_details.watchlist,
+        providedBy: req.body.story_details.providedBy,
+        mode: req.body.story_details.mode,
+        priority: req.body.story_details.priority,
       },
     };
 
-    await UserStory.findByIdAndUpdate(
+    await JobTobeDone.findByIdAndUpdate(
       id,
       updatedStory,
       { new: true },

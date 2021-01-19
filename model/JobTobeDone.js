@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userStorySchema = new mongoose.Schema({
+const JobTobeDoneSchema = new mongoose.Schema({
   userId: {
     type: String,
     required: true,
@@ -9,35 +9,38 @@ const userStorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  storyDetails: {
-    storyTitle: {
+  JobTobeDone: {
+    description: {
       type: String,
     },
-    asA: {
+    persona: {
       type: String,
     },
-    actionRequirement: {
+    situation: {
       type: String,
     },
-    actionOutput: {
+    whatiwant: {
       type: String,
     },
-    actionAssignedTo: {
+    soican: {
       type: String,
     },
-    actionProvidedBy: {
-      type: String,
-    },
-    actionReceivedMode: {
-      type: String,
-    },
-    priority: {
+    assignTo: {
       type: String,
     },
     details: {
       type: String,
     },
+    providedBy: {
+      type: String,
+    },
+    mode: {
+      type: String,
+    },
+    priority: {
+      type: String,
+    },
   },
 });
 
-module.exports = mongoose.model("UserStory", userStorySchema);
+module.exports = mongoose.model("JobTobeDone", JobTobeDoneSchema);
